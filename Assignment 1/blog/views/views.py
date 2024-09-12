@@ -1,9 +1,10 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from rest_framework.decorators import api_view
+from django.http import HttpResponse, response
+from django.shortcuts import redirect, get_object_or_404, render
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from .serializers import PostSerializer
-from blog.models import Post
-import http
+from blog.models import Post, Comment
+from blog.forms import PostForm, CommentForm
 
 
 # Create your views here.
@@ -12,37 +13,70 @@ def hello_view(request):
 
 
 def post_list(request: HttpResponse):
-    posts = PostSerializer(Post.objects.all(), many=True).data
-    return render(request, 'blogs.html', {'posts': posts})
-    # match request.method:
-    #     case 'GET':
-    #         ser = PostSerializer(Post.objects.all(), many=True)
-    #         return JsonResponse(ser.data, safe=False)
-    #     case 'POST':
-    #         ser = PostSerializer(data=request.data, context={'request': request})
-    #         if ser.is_valid():
-    #             ser.save()
-    #             return JsonResponse(ser.data)
-    #         return JsonResponse({'error': "error data"}, status=http.HTTPStatus.BAD_REQUEST)
+    paginator = Paginator(Post.objects.order_by("-created_at").all(), 2)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'posts_list.html', {"page_obj": page_obj})
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
 def post_one(request: HttpResponse, post_id):
-    try:
-        post = Post.objects.get(id=post_id)
-    except Post.DoesNotExist as e:
-        return JsonResponse({'error': str(e)}, status=http.HTTPStatus.BAD_REQUEST)
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if not form.is_valid():
+            return response.HttpResponseBadRequest()
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.post = post
+        comment.save()
+    return render(request, 'post_one.html', {'post': post, 'form': CommentForm(), 'comments': Comment.objects.filter(post__pk=post_id)})
 
-    match request.method:
-        case 'GET':
-            return JsonResponse(PostSerializer(post).data)
-        case 'PUT':
-            ser = PostSerializer(instance=post, data=request.data, context={'request': request})
-            if ser.is_valid():
-                ser.save()
-                return JsonResponse(ser.data)
-            return JsonResponse(ser.errors, status=http.HTTPStatus.BAD_REQUEST)
-        case 'DELETE':
+
+@login_required
+def post_new(request: HttpResponse):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('blog-post-one', post_id=post.id)
+        return response.HttpResponseBadRequest()
+    return render(request, 'post_edit.html', {'form': PostForm()})
+
+
+def illegal_post_mod(request: HttpResponse):
+    return render(request, 'post_modified.html',
+                  {'error': 'You are not allowed to modify the post as you are not creator of it!'})
+
+
+@login_required
+def post_edit(request: HttpResponse, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.user != post.author:
+        return illegal_post_mod(request)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('blog-post-one', post_id=post.id)
+        return response.HttpResponseBadRequest()
+    return render(request, 'post_edit.html', {'form': PostForm(instance=post)})
+
+
+@login_required
+def post_delete(request: HttpResponse, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.user != post.author:
+        return illegal_post_mod(request)
+    else:
+        title = post.title
+        try:
             post.delete()
-            return JsonResponse({'deleted': True})
-
+        except e:
+            error = str(e)
+        else:
+            error = None
+    return render(request, 'post_modified.html', {'title': title, 'error': error})

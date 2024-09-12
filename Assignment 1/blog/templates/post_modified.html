@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2><a href={% url 'blog-post-list' %} >Go to full list</a></h2>
+<h3>
+{% if error is not None %}
+    An error occured: {{error}}
+{% else %}
+    Post "{{title}}" was successfully deleted!
+{% endif %}
+</h3>
+{% endblock %}
