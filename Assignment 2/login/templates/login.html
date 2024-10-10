@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{page_name}}</title>
+</head>
+<body>
+
+<h1>{{page_name}}</h1>
+
+
+{% if page_name == 'Login' %}
+<h2>Or <a href="/register/">Register</a></h2>
+{% else %}
+<h2>Or <a href="/login/">Login</a></h2>
+{% endif %}
+
+{% if error %}
+<h2>{{error}}</h2>
+{% endif %}
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>
