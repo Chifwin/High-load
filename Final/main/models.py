@@ -54,3 +54,40 @@ class Review(TimestampMixin):
         verbose_name_plural = "Reviews"
         constraints = [models.UniqueConstraint(fields=["product_id", "user_id"], name="unique_user_review")]
         # indexes = [models.Index(fields=["product_id", "user_id"])]
+
+
+class ShoppingCart(TimestampMixin):
+    user_id = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Shopping cart for {self.user_id}"
+
+
+class CartItem(TimestampMixin):
+    cart_id = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE)
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.product_id} in queantity {self.quantity} in cart for {self.cart.user_id}"
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["cart_id", "product_id"], name="unique_cart_item")]
+
+
+class Wishlist(TimestampMixin):
+    user_id = models.OneToOneField(User, on_delete=models.CASCADE, related_name="wishlist")
+
+    def __str__(self):
+        return f"Wishlist for {self.user_id}"
+
+
+class WishlistItem(TimestampMixin):
+    wishlist_id = models.ForeignKey(Wishlist, on_delete=models.CASCADE, related_name="items")
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.product_id} in wishlist for {self.wishlist.user_id}"
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["wishlist_id", "product_id"], name="unique_wishlist_item")]

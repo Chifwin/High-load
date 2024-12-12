@@ -1,6 +1,6 @@
 from django.urls import path
 
-from main.views import products
+from main.views import products, wishlist
 
 urlpatterns = [
     path("categories/", products.CategoryAllView.as_view({
@@ -31,6 +31,14 @@ urlpatterns = [
     path("reviews/<int:pk>/", products.ReviewDetailView.as_view({
         "get": "get",
         "put": "put",
+        "delete": "delete"
+    })),
+] + [
+    path("wishlist/", wishlist.WishlistViewSet.as_view({
+        "get": "get"
+    })),
+    path("wishlist/products/", wishlist.WishlistViewSet.as_view({
+        "post": "post",
         "delete": "delete"
     })),
 ]
