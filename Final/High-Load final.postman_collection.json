@@ -1,0 +1,730 @@
+{
+	"info": {
+		"_postman_id": "26165ff0-18d6-4780-931f-59ceebeb4bc6",
+		"name": "High-Load final",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26770760"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Get token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"chifwin\",\r\n    \"password\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_link}}token/",
+							"host": [
+								"{{auth_link}}token"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczNDAxNDY2OCwiaWF0IjoxNzMzOTI4MjY4LCJqdGkiOiI5ZTAzZmVmOGJhN2I0NWE2YTY5YWYwYmIxYWI1NTFmYiIsInVzZXJfaWQiOjF9.QdQAwcv2nteqsGIsUKr2bJe-sWPiYvtPBok_AppNaAY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_link}}token/refresh/",
+							"host": [
+								"{{auth_link}}token"
+							],
+							"path": [
+								"refresh",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{auth_link}}user/",
+							"host": [
+								"{{auth_link}}user"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"asdaaa\",\r\n    \"password\": \"asd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_link}}register/",
+							"host": [
+								"{{auth_link}}register"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}categories/",
+							"host": [
+								"{{api_link}}categories"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"asd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_link}}categories/",
+							"host": [
+								"{{api_link}}categories"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}categories/1",
+							"host": [
+								"{{api_link}}categories"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"qwe\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_link}}categories/1/",
+							"host": [
+								"{{api_link}}categories"
+							],
+							"path": [
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}categories/1/",
+							"host": [
+								"{{api_link}}categories"
+							],
+							"path": [
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}products/",
+							"host": [
+								"{{api_link}}products"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Prod 1\",\r\n    \"description\": \"the\",\r\n    \"price\": 123.12,\r\n    \"stock_quantity\": 123,\r\n    \"category_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_link}}products/",
+							"host": [
+								"{{api_link}}products"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}products/1/",
+							"host": [
+								"{{api_link}}products"
+							],
+							"path": [
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Prod 1 new\",\r\n    \"description\": \"the new\",\r\n    \"price\": 123.12,\r\n    \"stock_quantity\": 123,\r\n    \"category_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_link}}products/1/",
+							"host": [
+								"{{api_link}}products"
+							],
+							"path": [
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}products/1/",
+							"host": [
+								"{{api_link}}products"
+							],
+							"path": [
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}products/1/reviews",
+							"host": [
+								"{{api_link}}products"
+							],
+							"path": [
+								"1",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}reviews/",
+							"host": [
+								"{{api_link}}reviews"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comment\": \"commsa\",\r\n    \"rating\": 5,\r\n    \"product_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_link}}reviews/",
+							"host": [
+								"{{api_link}}reviews"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}reviews/1",
+							"host": [
+								"{{api_link}}reviews"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comment\": \"commsa\",\r\n    \"rating\": 5,\r\n    \"product_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_link}}reviews/1/",
+							"host": [
+								"{{api_link}}reviews"
+							],
+							"path": [
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}reviews/1/",
+							"host": [
+								"{{api_link}}reviews"
+							],
+							"path": [
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wishlist",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}wishlist",
+							"host": [
+								"{{api_link}}wishlist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add to wishlist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_link}}wishlist/",
+							"host": [
+								"{{api_link}}wishlist"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete from wishlist",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_link}}wishlist/",
+							"host": [
+								"{{api_link}}wishlist"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shopping cart",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}shopping_cart",
+							"host": [
+								"{{api_link}}shopping_cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add to cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\": 1,\r\n    \"quantity\": 123\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_link}}shopping_cart/",
+							"host": [
+								"{{api_link}}shopping_cart"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete from cart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_link}}shopping_cart/",
+							"host": [
+								"{{api_link}}shopping_cart"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Make order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}shopping_cart/order/",
+							"host": [
+								"{{api_link}}shopping_cart"
+							],
+							"path": [
+								"order",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}orders/",
+							"host": [
+								"{{api_link}}orders"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_link}}orders/4",
+							"host": [
+								"{{api_link}}orders"
+							],
+							"path": [
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"in_progress\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_link}}orders/4/",
+							"host": [
+								"{{api_link}}orders"
+							],
+							"path": [
+								"4",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0MDIyODM4LCJpYXQiOjE3MzM5ODY4MzgsImp0aSI6ImZjNmJmMzIzYzhiZTQ3ZWRiMDlhOTM0NDM1MWE4Y2ExIiwidXNlcl9pZCI6MX0.KJ0U6gsKynHBlXY5tiCdYdwnMKBen9YyK8ezUjlbUwg",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api_link",
+			"value": "http://127.0.0.1:8000/api/",
+			"type": "string"
+		},
+		{
+			"key": "auth_link",
+			"value": "http://127.0.0.1:8000/auth/",
+			"type": "string"
+		}
+	]
+}

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from main.views import products, wishlist
+from main.views import products, wishlist, shopping_cart, orders
 
 urlpatterns = [
     path("categories/", products.CategoryAllView.as_view({
@@ -32,13 +32,28 @@ urlpatterns = [
         "get": "get",
         "put": "put",
         "delete": "delete"
-    })),
+    }))
 ] + [
     path("wishlist/", wishlist.WishlistViewSet.as_view({
-        "get": "get"
-    })),
-    path("wishlist/products/", wishlist.WishlistViewSet.as_view({
+        "get": "get",
         "post": "post",
         "delete": "delete"
+    }))
+] + [
+    path("shopping_cart/", shopping_cart.ShoppingCartViewSet.as_view({
+        "get": "get",
+        "post": "post",
+        "delete": "delete"
+    })),
+    path("shopping_cart/order/", shopping_cart.ShoppingCartViewSet.as_view({
+        "post": "make_order"
+    }))
+] + [
+    path("orders/", orders.OrderViewSet.as_view({
+        "get": "get_all"
+    })),
+    path("orders/<int:pk>/", orders.OrderViewSet.as_view({
+        "get": "get_one",
+        "put": "put"
     })),
 ]

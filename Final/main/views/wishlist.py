@@ -22,7 +22,7 @@ class WishlistViewSet(viewsets.GenericViewSet):
         _, created_item = WishlistItem.objects.get_or_create(
             product_id=serializer.validated_data["product_id"], wishlist_id=wishlist
         )
-        return Response(status=status.HTTP_201_CREATED if created_item else status.HTTP_200_OK)
+        return Response(status=status.HTTP_201_CREATED)
 
     def delete(self, request):
         serializer = WishlistItemSerializer(data=request.data)

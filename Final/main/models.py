@@ -28,7 +28,7 @@ class Category(TimestampMixin):
 class Product(TimestampMixin):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    price = models.DecimalField(max_digits=8, decimal_places=2)
+    price = models.DecimalField(max_digits=18, decimal_places=2)
     stock_quantity = models.PositiveIntegerField()
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
 
@@ -56,6 +56,65 @@ class Review(TimestampMixin):
         # indexes = [models.Index(fields=["product_id", "user_id"])]
 
 
+class Order(TimestampMixin):
+    class Status(models.TextChoices):
+        CREATED = "created", "Created"
+        IN_PROGRESS = "in_progress", "In progress"
+        DONE = "done", "Done"
+        CANCELED = "canceled", "Canceled"
+
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
+    order_status = models.CharField(max_length=20, choices=Status.choices, default=Status.CREATED)
+    total_amount = models.DecimalField(max_digits=18, decimal_places=2, default=0)
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            self.total_amount = sum(item.price for item in self.items.all())
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Order #{self.pk} for {self.user_id}"
+
+    class Meta:
+        ordering = ["-created_at"]
+
+
+class OrderItem(TimestampMixin):
+    order_id = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=18, decimal_places=2)
+
+    def save(self, *args, **kwargs):
+        self.price = self.product_id.price * self.quantity
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.product_id} in quantity {self.quantity} in order #{self.order_id.id}"
+
+
+class Payment(TimestampMixin):
+    class PaymentMethod(models.TextChoices):
+        CASH = "cash", "Cash"
+        CARD = "card", "Card"
+        BANK = "bank", "Bank"
+
+    class PaymentStatus(models.TextChoices):
+        PENDING = "pending", "Pending"
+        SUCCESS = "success", "Success"
+        FAILED = "failed", "Failed"
+
+    order_id = models.OneToOneField(Order, on_delete=models.CASCADE, related_name="payment")
+    payment_method = models.CharField(max_length=50, choices=PaymentMethod.choices)
+    amount = models.DecimalField(max_digits=18, decimal_places=2)
+    status = models.CharField(
+        max_length=20, choices=PaymentStatus.choices, default=PaymentStatus.PENDING
+    )
+
+    def __str__(self):
+        return f"Payment for order #{self.order_id.id}"
+
+
 class ShoppingCart(TimestampMixin):
     user_id = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -64,7 +123,7 @@ class ShoppingCart(TimestampMixin):
 
 
 class CartItem(TimestampMixin):
-    cart_id = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE)
+    cart_id = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE, related_name="items")
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
 
