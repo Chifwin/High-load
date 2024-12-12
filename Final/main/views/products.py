@@ -1,4 +1,6 @@
 from django.db.utils import IntegrityError
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from rest_framework import serializers, status, mixins
 from rest_framework.generics import ListAPIView, RetrieveAPIView
@@ -24,10 +26,18 @@ class ProductAllView(GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMi
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+    @method_decorator(cache_page(60 * 10))
+    def get(self, request):
+        return super().list(self, request)
+
 
 class ProductDetailView(GenericViewSet, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+    @method_decorator(cache_page(60 * 10))
+    def get(self, request, pk):
+        return super().retrieve(self, request, pk)
 
 
 class ProductReviewAllView(ListAPIView):

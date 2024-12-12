@@ -14,11 +14,11 @@ urlpatterns = [
     })),
 
     path("products/", products.ProductAllView.as_view({
-        "get": "list",
+        "get": "get",
         "post": "create",
     })),
     path("products/<int:pk>/", products.ProductDetailView.as_view({
-        "get": "retrieve",
+        "get": "get",
         "put": "update",
         "delete": "destroy"
     })),

@@ -12,7 +12,7 @@ class OrderViewSet(viewsets.GenericViewSet):
     lookup_field = "pk"
 
     def get_queryset(self):
-        return Order.objects.filter(user_id=self.request.user)
+        return Order.objects.filter(user_id=self.request.user).select_related("user_id").prefetch_related("items")
 
     def get_all(self, request):
         orders = self.get_queryset()

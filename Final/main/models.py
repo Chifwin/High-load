@@ -9,13 +9,7 @@ from .utils import TimestampMixin
 
 class Category(TimestampMixin):
     name = models.CharField(max_length=255)
-    parent_id = models.ForeignKey(
-        "Category",
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        verbose_name="Parent category"
-    )
+    parent_id = models.ForeignKey("Category", on_delete=models.CASCADE, null=True, blank=True, verbose_name="Parent category")
 
     def __str__(self):
         return self.name
@@ -53,7 +47,6 @@ class Review(TimestampMixin):
         verbose_name = "Review"
         verbose_name_plural = "Reviews"
         constraints = [models.UniqueConstraint(fields=["product_id", "user_id"], name="unique_user_review")]
-        # indexes = [models.Index(fields=["product_id", "user_id"])]
 
 
 class Order(TimestampMixin):
@@ -107,9 +100,7 @@ class Payment(TimestampMixin):
     order_id = models.OneToOneField(Order, on_delete=models.CASCADE, related_name="payment")
     payment_method = models.CharField(max_length=50, choices=PaymentMethod.choices)
     amount = models.DecimalField(max_digits=18, decimal_places=2)
-    status = models.CharField(
-        max_length=20, choices=PaymentStatus.choices, default=PaymentStatus.PENDING
-    )
+    status = models.CharField(max_length=20, choices=PaymentStatus.choices, default=PaymentStatus.PENDING)
 
     def __str__(self):
         return f"Payment for order #{self.order_id.id}"
